@@ -8,29 +8,13 @@ add_library(tgbot_fragment STATIC
 ${SOURCE_DIR}/Fragment.cpp
 )
 
-target_link_libraries(
-    tgbot_fragment 
-    sqlite
+include_directories(tgbot_fragment 
+src
 )
 
-include_directories(bito 
-src/include
-src/core
-src/db
-src/net
-src/scheme
-)
+add_subdirectory("sqlite_cpp")
+target_link_libraries(tgbot_fragment PRIVATE sqlite_cpp)
 
-set(NATIVE_LIB "bitocore")
-# add_library(${NATIVE_LIB} SHARED
+target_include_directories(tgbot_fragment PUBLIC include)
 
-# )
-# target_link_libraries(${NATIVE_LIB}
-# bito
-# )
-
-add_executable(Main ${SOURCE_DIR}/main.cpp)
-
-target_link_libraries(Main 
-curl
-bito)
+add_subdirectory("test")
