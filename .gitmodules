@@ -1,0 +1,3 @@
+[submodule "sqlite_cpp"]
+	path = sqlite_cpp
+	url = https://github.com/anaserkinov/sqlite_cpp.git
