@@ -6,15 +6,12 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_library(tgbot_fragment STATIC
 ${SOURCE_DIR}/Fragment.cpp
+${SOURCE_DIR}/FragmentManager.cpp
 )
 
 include_directories(
+    tgbot_fragment
     "include"
-)
-
-
-include_directories(tgbot_fragment 
-src
 )
 
 add_subdirectory("sqlite_cpp")

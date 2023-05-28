@@ -1,13 +1,31 @@
 #ifndef FRAGMENT
 #define FRAGMENT
 
+#include "Api.h"
+#include "types/Message.h"
+
+using namespace TgBot;
+
+class FragmentManager;
+
 class Fragment {
-private:
+    FragmentManager* fragmentManager = nullptr;
+
+protected:
+    inline const Bot& getBot() const ;
+    inline const Api& getApi() const;
+
 public:
-    Fragment();
-    
-    void create();
-    void destroy();
+    int fragmentId;
+
+    Fragment(int id);
+
+    void setFragmentManager(FragmentManager* fm);
+
+    void onAnyMessage(const Message message);
+
+    void onCommand(const std::string& commandName);
+
 
     ~Fragment();
 };
