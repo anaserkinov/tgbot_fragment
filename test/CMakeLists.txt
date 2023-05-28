@@ -6,5 +6,13 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_executable(Main ${SOURCE_DIR}/Test.cpp)
 
+include_directories(
+    "../sqlite_cpp/include"
+    "../tgbot-cpp/include"
+)
+
 target_link_libraries(Main 
-tgbot_fragment)
+tgbot_fragment
+sqlite_cpp
+TgBot
+)

@@ -13,7 +13,8 @@ src
 )
 
 add_subdirectory("sqlite_cpp")
-target_link_libraries(tgbot_fragment PRIVATE sqlite_cpp)
+add_subdirectory("tgbot-cpp")
+target_link_libraries(tgbot_fragment PRIVATE sqlite_cpp TgBot)
 
 target_include_directories(tgbot_fragment PUBLIC include)
 

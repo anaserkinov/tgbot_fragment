@@ -1,14 +1,15 @@
 #ifndef FRAGMENT
 #define FRAGMENT
 
-class Fragment
-{
+class Fragment {
 private:
-    /* data */
 public:
     Fragment();
+    
+    void create();
+    void destroy();
+
     ~Fragment();
 };
-
 
 #endif
