@@ -3,4 +3,4 @@
 	url = https://github.com/anaserkinov/sqlite_cpp.git
 [submodule "tgbot-cpp"]
 	path = tgbot-cpp
-	url = https://github.com/reo7sp/tgbot-cpp
+	url = https://github.com/anaserkinov/tgbot-cpp.git
