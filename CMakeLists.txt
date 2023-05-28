@@ -8,6 +8,11 @@ add_library(tgbot_fragment STATIC
 ${SOURCE_DIR}/Fragment.cpp
 )
 
+include_directories(
+    "include"
+)
+
+
 include_directories(tgbot_fragment 
 src
 )
