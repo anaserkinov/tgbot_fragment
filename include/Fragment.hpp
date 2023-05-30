@@ -22,6 +22,8 @@ public:
 
     void setFragmentManager(FragmentManager* fm);
 
+    Fragment presentFragment(int id) const;
+
     void onAnyMessage(const Message message);
 
     void onCommand(const std::string& commandName);

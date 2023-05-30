@@ -12,17 +12,20 @@ class Fragment;
 class FragmentManager {
 private:
     Bot* bot = nullptr;
-    std::function<Fragment (int)> createFragment;
+    Fragment** fragments = new Fragment*[20];
+    std::function<Fragment* (int)> createFragment;
 
 public:
 
     FragmentManager(Bot* bot);
 
-    void setFragmentFactory(const std::function<Fragment (int)>& createFragment);
+    void setFragmentFactory(const std::function<Fragment* (int)>& createFragment);
 
     inline const Bot& getBot() const;
 
     inline const Api& getApi() const;
+
+    Fragment presentFragment(int id) const;
 
     ~FragmentManager();
 };
