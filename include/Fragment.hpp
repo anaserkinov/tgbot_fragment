@@ -24,10 +24,9 @@ public:
 
     Fragment presentFragment(int id) const;
 
-    void onAnyMessage(const Message message);
+    virtual void onAnyMessage(const Message::Ptr& message){};
 
-    void onCommand(const std::string& commandName);
-
+    virtual void onCommand(const std::string& commandName, const Message::Ptr& message){};
 
     ~Fragment();
 };
