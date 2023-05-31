@@ -6,58 +6,41 @@ FragmentManager::FragmentManager(Bot* bot) {
     this->bot = bot;
 }
 
-void FragmentManager::setFragmentFactory(const std::function<Fragment*(int)>& createFragment) {
+void FragmentManager::setFragmentFactory(const std::function<Fragment(int)>& createFragment) {
     this->createFragment = createFragment;
 }
 
-inline const Bot& FragmentManager::getBot() const {
+inline const Bot& FragmentManager::getBot() {
     return *bot;
 }
 
-inline const Api& FragmentManager::getApi() const {
+inline const Api& FragmentManager::getApi() {
     return bot->getApi();
 }
 
-Fragment FragmentManager::presentFragment(int id) const {
-    Fragment* fragment = nullptr;
-
-    for (int i = 0; i < 20; i++) {
-        if (fragments[i] != nullptr && id == fragments[i]->fragmentId) {
-            fragment = fragments[i];
-            if (i != 0) {
-                Fragment* f = fragments[0];
-                fragments[0] = fragment;
-                fragments[i] = f;
-            }
+Fragment& FragmentManager::presentFragment(int id) {
+    int count = fragments.size();
+    for (int i = 0; i < count; i++) {
+        if (id == fragments.at(i).fragmentId) {
+            return fragments.at(i);
             break;
         }
     }
 
-    if (fragment == nullptr) {
-        fragment = createFragment(id);
+    Fragment f = createFragment(id);
+    f.setFragmentManager(this);
+    fragments.push_back(f);
+    return f;
+}
 
-        for (int i = 0; i < 20; i++) {
-            if (fragments[i] == nullptr) {
-                fragments[i] = fragment;
-                if (i != 0) {
-                    Fragment* f = fragments[0];
-                    fragments[0] = fragment;
-                    fragments[i] = f;
-                }
-                break;
-            }
-        }
-    }
+void FragmentManager::onAnyMessage(int fragmentId, const Message::Ptr& message) {
+    presentFragment(fragmentId).onAnyMessage(message);
+}
 
-    return *fragment;
+void FragmentManager::onCommand(int fragmentId, const Message::Ptr& message) {
+    presentFragment(fragmentId).onCommand(message);
 }
 
 FragmentManager::~FragmentManager() {
-    for (int i = 0; i < 20; ++i) {
-        if (fragments[i] != nullptr) {
-            delete fragments[i];
-            fragments[i] = nullptr;
-        }
-    }
-    delete[] fragments;
+    fragments.clear();
 }

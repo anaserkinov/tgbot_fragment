@@ -26,7 +26,7 @@ public:
 
     virtual void onAnyMessage(const Message::Ptr& message){};
 
-    virtual void onCommand(const std::string& commandName, const Message::Ptr& message){};
+    virtual void onCommand(const Message::Ptr& message){};
 
     ~Fragment();
 };
