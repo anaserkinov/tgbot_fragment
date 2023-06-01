@@ -2,17 +2,9 @@
 
 #include <iostream>
 
-#include "Database.hpp"
 #include "Fragment.hpp"
 
 int main() {
-    try {
-        Database database("ddd.db");
-        database.executeFast("CREATE TABLE IF NOT EXISTS 'product'(id TEXT PRIMARY KEY)")->stepThis().dispose();
-    } catch (const std::exception& e) {
-        std::cerr << e.what() << '\n';
-    }
-
     TgBot::Bot bot("5830213755:AAEWKtp0mHKxcNSyDL0MYps8YgI2k12lSME");
 
     bot.getEvents().onCommand("start", [&bot](TgBot::Message::Ptr message) {
