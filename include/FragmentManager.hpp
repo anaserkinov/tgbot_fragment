@@ -14,19 +14,19 @@ class Fragment;
 class FragmentManager {
 private:
     Bot* bot = nullptr;
-    std::vector<Fragment&> fragments;
-    std::function<Fragment(int)> createFragment;
+    std::vector<Fragment*> fragments;
+    std::function<Fragment*(int)> createFragment;
 
 public:
     FragmentManager(Bot* bot);
 
-    void setFragmentFactory(const std::function<Fragment(int)>& createFragment);
+    void setFragmentFactory(const std::function<Fragment*(int)>& createFragment);
 
     inline const Bot& getBot();
 
     inline const Api& getApi();
 
-    Fragment& presentFragment(int id);
+    Fragment* presentFragment(int id);
 
     void onAnyMessage(int fragmentId, const Message::Ptr& message);
 

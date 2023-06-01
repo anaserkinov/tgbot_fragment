@@ -22,7 +22,7 @@ public:
 
     void setFragmentManager(FragmentManager* fm);
 
-    Fragment presentFragment(int id) const;
+    Fragment* presentFragment(int id) const;
 
     virtual void onAnyMessage(const Message::Ptr& message){};
 

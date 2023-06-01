@@ -11,7 +11,8 @@ ${SOURCE_DIR}/FragmentManager.cpp
 
 include_directories(
     tgbot_fragment
-    "include"
+    "include",
+    "tgbot-cpp/include/tgbot"
 )
 add_subdirectory("tgbot-cpp")
 target_link_libraries(tgbot_fragment PRIVATE TgBot)

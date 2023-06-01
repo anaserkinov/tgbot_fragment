@@ -13,7 +13,7 @@ inline const Api& Fragment::getApi() const {
     return fragmentManager->getApi();
 }
 
-Fragment Fragment::presentFragment(int id) const {
+Fragment* Fragment::presentFragment(int id) const {
     return fragmentManager->presentFragment(id);
 }
 
