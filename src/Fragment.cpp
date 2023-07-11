@@ -5,15 +5,15 @@
 Fragment::Fragment(int id) {
 }
 
-inline const Bot& Fragment::getBot() const {
+Bot& Fragment::getBot() {
     return fragmentManager->getBot();
 }
 
-inline const Api& Fragment::getApi() const {
+const Api& Fragment::getApi() {
     return fragmentManager->getApi();
 }
 
-Fragment* Fragment::presentFragment(int id) const {
+std::shared_ptr<Fragment> Fragment::presentFragment(int id) const {
     return fragmentManager->presentFragment(id);
 }
 

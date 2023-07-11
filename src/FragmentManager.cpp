@@ -10,11 +10,11 @@ void FragmentManager::setFragmentFactory(const std::function<std::shared_ptr<Fra
     this->createFragment = createFragment;
 }
 
-inline const Bot& FragmentManager::getBot() {
+Bot& FragmentManager::getBot() {
     return *bot;
 }
 
-inline const Api& FragmentManager::getApi() {
+const Api& FragmentManager::getApi() {
     return bot->getApi();
 }
 
@@ -51,6 +51,7 @@ void FragmentManager::onNonCommandMessage(const Message::Ptr& message) {
 }
 
 void FragmentManager::onCommand(const Message::Ptr& message) {
+    
     getFragment(message->from->id)->onCommand(message);
 }
 
