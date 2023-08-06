@@ -12,43 +12,42 @@ class FragmentManager;
 class Fragment {
     FragmentManager* fragmentManager = nullptr;
 
-protected:
-
-    void createKeyboard(const std::vector<std::vector<std::string>>& buttonLayout, ReplyKeyboardMarkup::Ptr& kb) {
+   protected:
+    ReplyKeyboardMarkup::Ptr& createKeyboard(const std::vector<std::vector<std::string>>& buttonLayout, ReplyKeyboardMarkup::Ptr& kb) {
         for (size_t i = 0; i < buttonLayout.size(); ++i) {
             std::vector<KeyboardButton::Ptr> row;
             for (size_t j = 0; j < buttonLayout[i].size(); ++j) {
-                KeyboardButton::Ptr button(new KeyboardButton);
+                auto button = std::make_shared<KeyboardButton>();
                 button->text = buttonLayout[i][j];
                 row.push_back(button);
             }
             kb->keyboard.push_back(row);
         }
+        return kb;
     }
 
-    void createKeyboard(
-            const std::vector<std::string>& buttonLayout,
-            ReplyKeyboardMarkup::Ptr& kb) {
+    ReplyKeyboardMarkup::Ptr& createKeyboard(
+        const std::string& buttonLayout,
+        ReplyKeyboardMarkup::Ptr& kb) {
         std::vector<KeyboardButton::Ptr> row;
-        for (size_t j = 0; j < buttonLayout.size(); ++j) {
-            KeyboardButton::Ptr button(new KeyboardButton);
-            button->text = buttonLayout[j];
-            row.push_back(button);
-        }
-        kb->keyboard.push_back(row);
-    }
-
-    void createKeyboard(
-            const std::string& buttonLayout,
-            ReplyKeyboardMarkup::Ptr& kb) {
-        std::vector<KeyboardButton::Ptr> row;
-        KeyboardButton::Ptr button(new KeyboardButton);
+        auto button = std::make_shared<KeyboardButton>();
         button->text = buttonLayout;
         row.push_back(button);
+        kb->resizeKeyboard = true;
         kb->keyboard.push_back(row);
+        return kb;
     }
 
-public:
+    ReplyKeyboardMarkup::Ptr& addButton(
+        ReplyKeyboardMarkup::Ptr& kb,
+        KeyboardButton::Ptr& button) {
+        std::vector<KeyboardButton::Ptr> row;
+        row.push_back(button);
+        kb->keyboard.push_back(row);
+        return kb;
+    }
+
+   public:
     int fragmentId;
 
     Fragment(int id);
@@ -58,9 +57,21 @@ public:
 
     void setFragmentManager(FragmentManager* fm);
 
-    std::shared_ptr<Fragment> presentFragment(int id) const;
+    std::shared_ptr<Fragment> presentFragment(int id, const Message::Ptr lastMessage) const;
 
-    virtual void onCreate(){};
+    virtual void onCreate(const Message::Ptr& lastMessage){};
+
+    Message::Ptr sendMessage(boost::variant<std::int64_t, std::string> chatId,
+                             const std::string& text,
+                             bool disableWebPagePreview = false,
+                             std::int32_t replyToMessageId = 0,
+                             GenericReply::Ptr replyMarkup = nullptr,
+                             const std::string& parseMode = "",
+                             bool disableNotification = false,
+                             const std::vector<MessageEntity::Ptr>& entities = std::vector<MessageEntity::Ptr>(),
+                             bool allowSendingWithoutReply = false,
+                             bool protectContent = false,
+                             std::int32_t messageThreadId = 0);
 
     virtual void onAnyMessage(const Message::Ptr& message){};
 

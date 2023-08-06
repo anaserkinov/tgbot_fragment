@@ -1,6 +1,7 @@
 #include "FragmentManager.hpp"
 
 #include "Fragment.hpp"
+#include "iostream"
 
 FragmentManager::FragmentManager(Bot* bot) {
     this->bot = bot;
@@ -18,7 +19,7 @@ const Api& FragmentManager::getApi() {
     return bot->getApi();
 }
 
-std::shared_ptr<Fragment> FragmentManager::presentFragment(int id) {
+std::shared_ptr<Fragment> FragmentManager::presentFragment(int id, const Message::Ptr& lastMessage) {
     // int count = fragments.size();
     // for (int i = 0; i < count; i++) {
     //     if (id == fragments.at(i)->fragmentId) {
@@ -29,7 +30,7 @@ std::shared_ptr<Fragment> FragmentManager::presentFragment(int id) {
 
     std::shared_ptr<Fragment> f = createFragment(id);
     f->setFragmentManager(this);
-    f->onCreate();
+    f->onCreate(lastMessage);
 
     // fragments.push_back(f);
     return f;
@@ -37,6 +38,7 @@ std::shared_ptr<Fragment> FragmentManager::presentFragment(int id) {
 
 std::shared_ptr<Fragment> FragmentManager::getFragment(int64_t userId) {
     auto fragmentState = fragmentStateController.getState(userId);
+    std::cout<<"fragmentState: "<<fragmentState.id<<"\n";
     std::shared_ptr<Fragment> f = createFragment(fragmentState.id);
     f->setFragmentManager(this);
     return f;
@@ -47,11 +49,10 @@ void FragmentManager::onAnyMessage(const Message::Ptr& message) {
 }
 
 void FragmentManager::onNonCommandMessage(const Message::Ptr& message) {
-    getFragment(message->from->id)->onAnyMessage(message);
+    getFragment(message->from->id)->onNonCommandMessage(message);
 }
 
 void FragmentManager::onCommand(const Message::Ptr& message) {
-    
     getFragment(message->from->id)->onCommand(message);
 }
 

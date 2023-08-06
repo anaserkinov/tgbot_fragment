@@ -26,11 +26,11 @@ public:
 
     void setFragmentFactory(const std::function<std::shared_ptr<Fragment>(int)>& createFragment);
 
-    inline Bot& getBot();
+    Bot& getBot();
 
-    inline const Api& getApi();
+    const Api& getApi();
 
-    std::shared_ptr<Fragment> presentFragment(int id);
+    std::shared_ptr<Fragment> presentFragment(int id, const Message::Ptr& lastMessage);
 
     void onAnyMessage(const Message::Ptr& message);
 
