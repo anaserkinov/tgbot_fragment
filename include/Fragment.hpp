@@ -2,6 +2,7 @@
 #define FRAGMENT
 
 #include "Api.h"
+#include "math.h"
 #include "types/Message.h"
 #include "vector"
 
@@ -13,6 +14,24 @@ class Fragment {
     FragmentManager* fragmentManager = nullptr;
 
    protected:
+    void placeKeyboards(
+        const std::vector<std::string>& source,
+        std::vector<std::vector<std::string>>& output,
+        size_t column) {
+        size_t sSize = source.size();
+        size_t index = 0;
+
+        while (index != sSize) {
+            size_t c = std::min(sSize - index, column);
+            std::vector<std::string> v;
+            for (size_t i = 0; i < c; i++) {
+                v.push_back(source[index + i]);
+            }
+            output.push_back(v);
+            index += c;
+        }
+    }
+
     ReplyKeyboardMarkup::Ptr& createKeyboard(const std::vector<std::vector<std::string>>& buttonLayout, ReplyKeyboardMarkup::Ptr& kb) {
         for (size_t i = 0; i < buttonLayout.size(); ++i) {
             std::vector<KeyboardButton::Ptr> row;
