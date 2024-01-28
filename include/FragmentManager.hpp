@@ -13,15 +13,15 @@ using namespace TgBot;
 class Fragment;
 
 class FragmentManager {
-private:
+   private:
     Bot* bot = nullptr;
-    FragmentStateController fragmentStateController;
-    // std::vector<Fragment*> fragments;
     std::function<std::shared_ptr<Fragment>(int)> createFragment;
 
     std::shared_ptr<Fragment> getFragment(int64_t userId);
 
-public:
+   public:
+    FragmentStateController stateController;
+
     FragmentManager(Bot* bot);
 
     void setFragmentFactory(const std::function<std::shared_ptr<Fragment>(int)>& createFragment);
@@ -30,13 +30,15 @@ public:
 
     const Api& getApi();
 
-    std::shared_ptr<Fragment> presentFragment(int id, const Message::Ptr& lastMessage);
+    std::shared_ptr<Fragment> presentFragment(int id, int16_t type, const std::shared_ptr<void>& data);
 
     void onAnyMessage(const Message::Ptr& message);
 
     void onNonCommandMessage(const Message::Ptr& message);
 
     void onCommand(const Message::Ptr& message);
+
+    void onCallbackQuery(const CallbackQuery::Ptr& callbackQuery);
 
     ~FragmentManager();
 };

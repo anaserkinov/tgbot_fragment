@@ -19,26 +19,16 @@ const Api& FragmentManager::getApi() {
     return bot->getApi();
 }
 
-std::shared_ptr<Fragment> FragmentManager::presentFragment(int id, const Message::Ptr& lastMessage) {
-    // int count = fragments.size();
-    // for (int i = 0; i < count; i++) {
-    //     if (id == fragments.at(i)->fragmentId) {
-    //         return fragments.at(i);
-    //         break;
-    //     }
-    // }
-
+std::shared_ptr<Fragment> FragmentManager::presentFragment(int id, int16_t type, const std::shared_ptr<void>& data) {
     std::shared_ptr<Fragment> f = createFragment(id);
     f->setFragmentManager(this);
-    f->onCreate(lastMessage);
-
-    // fragments.push_back(f);
+    f->onCreate(type, data);
     return f;
 }
 
 std::shared_ptr<Fragment> FragmentManager::getFragment(int64_t userId) {
-    auto fragmentState = fragmentStateController.getState(userId);
-    std::cout<<"fragmentState: "<<fragmentState.id<<"\n";
+    auto fragmentState = stateController.getState(userId);
+    std::cout << "fragmentState: " << fragmentState.id << "\n";
     std::shared_ptr<Fragment> f = createFragment(fragmentState.id);
     f->setFragmentManager(this);
     return f;
@@ -56,11 +46,9 @@ void FragmentManager::onCommand(const Message::Ptr& message) {
     getFragment(message->from->id)->onCommand(message);
 }
 
-FragmentManager::~FragmentManager() {
-    // int count = fragments.size();
-    // for (size_t i = 0; i < count; i++){
-    //     delete fragments.at(i);
-    // }
+void FragmentManager::onCallbackQuery(const CallbackQuery::Ptr& callbackQuery) {
+    getFragment(callbackQuery->from->id)->onCallbackQuery(callbackQuery);
+}
 
-    // fragments.clear();
+FragmentManager::~FragmentManager() {
 }
